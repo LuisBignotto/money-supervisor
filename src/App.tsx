@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { buildEvolution, pricePoints } from './domain/evolution'
 import { buildPortfolio } from './domain/portfolio'
 import { computePositions } from './domain/positions'
 import { buildReturns } from './domain/returns'
@@ -9,10 +10,11 @@ import type { Quote } from './prices/brapi'
 import { loadQuotes, loadRecords, loadSnapshots } from './storage/db'
 import Carteira from './ui/Carteira'
 import Cotacoes from './ui/Cotacoes'
+import Evolucao from './ui/Evolucao'
 import Importar from './ui/Importar'
 import Proventos from './ui/Proventos'
 
-const TABS = ['Carteira', 'Proventos', 'Cotações', 'Importar'] as const
+const TABS = ['Carteira', 'Evolução', 'Proventos', 'Cotações', 'Importar'] as const
 
 export default function App() {
   const [tab, setTab] = useState<(typeof TABS)[number]>('Carteira')
@@ -33,7 +35,9 @@ export default function App() {
     try {
       const d = derive(data.records)
       const pf = buildPortfolio(computePositions(d.trades, d.adjusts), data.snapshots, data.quotes)
-      return { pf, ret: buildReturns(d.trades, d.proventos, pf), proventos: d.proventos }
+      const today = new Date().toLocaleDateString('sv-SE')
+      const evolution = buildEvolution(d.trades, d.adjusts, d.proventos, pricePoints(d.trades, data.snapshots, data.quotes), today)
+      return { pf, ret: buildReturns(d.trades, d.proventos, pf), proventos: d.proventos, evolution }
     } catch (e) {
       return { error: e instanceof Error ? e.message : String(e) }
     }
@@ -67,6 +71,8 @@ export default function App() {
           <p className="rounded-xl bg-red-50 p-4 text-sm text-red-700">Não foi possível calcular a carteira: {result.error}</p>
         ) : tab === 'Cotações' ? (
           <Cotacoes pf={result.pf} onDone={reload} />
+        ) : tab === 'Evolução' ? (
+          <Evolucao points={result.evolution} />
         ) : tab === 'Proventos' ? (
           <Proventos proventos={result.proventos} cost={result.pf.cost} asOf={new Date().toLocaleDateString('sv-SE')} />
         ) : (

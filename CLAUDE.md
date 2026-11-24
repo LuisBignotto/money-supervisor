@@ -91,8 +91,8 @@ Verificado: as quantidades calculadas batem com a Posição em todos os ativos (
 ## Pendências
 
 - Lucro líquido: corretagem/taxas/IR não vêm nos arquivos da B3 — precisa de entrada manual ou outra fonte.
-- Evolução do patrimônio mês a mês (hoje só o aportado acumulado): precisa de cotações históricas (fase brapi).
+- Evolução do patrimônio é **estimada** (`src/domain/evolution.ts`): qtd no fim do mês × último preço conhecido (negócios, Posições, cotações). O plano gratuito da brapi só dá 3 meses de histórico (`range` até `3mo`). Importar uma Posição por mês melhora a série.
 
-- Telas Evolução e Cotações (plano). Carteira, Proventos e Importar já existem em `src/ui/` (componentes compartilhados em `parts.tsx`); a Carteira sinaliza ativos que não batem com a Posição (ex.: direitos de subscrição `*12`).
+- Todas as telas do plano existem: Carteira, Evolução, Proventos, Cotações e Importar em `src/ui/` (componentes compartilhados em `parts.tsx`); a Carteira sinaliza ativos que não batem com a Posição (ex.: direitos de subscrição `*12`).
 - Alerta quando uma importação não traz linhas que já existem dentro do seu período (correção da B3), sem apagar.
 - Taxas não entram no preço médio; IR do JCP não é separado.
