@@ -19,7 +19,7 @@ export function Info({ text, light = false }: { text: string; light?: boolean })
       <button type="button" aria-label={`O que é: ${text}`} className={`flex h-5 w-5 items-center justify-center rounded-full border text-xs font-semibold leading-none ${light ? 'border-white/60 text-white/80' : 'border-slate-300 text-slate-400 hover:text-slate-600'}`}>
         i
       </button>
-      <span role="tooltip" className="pointer-events-none absolute right-0 top-7 z-20 hidden w-72 rounded-lg bg-slate-900 p-3 text-sm font-normal normal-case leading-relaxed text-white shadow-lg group-focus-within:block group-hover:block">
+      <span role="tooltip" className="pointer-events-none absolute right-0 top-7 z-20 hidden w-72 rounded-lg bg-[#0f172a] p-3 ring-1 ring-white/20 text-sm font-normal normal-case leading-relaxed text-white shadow-lg group-focus-within:block group-hover:block">
         {text}
       </span>
     </span>

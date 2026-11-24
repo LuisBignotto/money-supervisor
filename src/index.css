@@ -1,1 +1,33 @@
 @import "tailwindcss";
+
+/*
+ * Modo noturno: em vez de espalhar `dark:` por todas as telas, a classe `.dark` (no <html>)
+ * redefine a escala slate (claro <-> escuro) e as poucas cores claras fixas. Alternado em App.tsx.
+ */
+.dark {
+  color-scheme: dark;
+  --color-slate-50: #020617;
+  --color-slate-100: #1e293b;
+  --color-slate-200: #1e293b;
+  --color-slate-300: #334155;
+  --color-slate-400: #64748b;
+  --color-slate-500: #94a3b8;
+  --color-slate-600: #a8b3c5;
+  --color-slate-700: #cbd5e1;
+  --color-slate-800: #e2e8f0;
+  --color-slate-900: #f1f5f9;
+}
+.dark .bg-white { background-color: #0f172a; }
+.dark .bg-amber-50 { background-color: #451a03; }
+.dark .bg-amber-100 { background-color: #78350f; }
+.dark .text-amber-800 { color: #fcd34d; }
+.dark .bg-red-50 { background-color: #450a0a; }
+.dark .text-red-700 { color: #fca5a5; }
+.dark .bg-emerald-50 { background-color: #022c22; }
+
+/* Gráficos (Recharts) usam cores fixas inline. */
+.dark .recharts-cartesian-grid line { stroke: #334155; }
+.dark .recharts-cartesian-axis-tick-value { fill: #94a3b8; }
+.dark .recharts-legend-item-text { color: #cbd5e1 !important; }
+.dark .recharts-default-tooltip { background-color: #0f172a !important; border-color: #334155 !important; }
+.dark .recharts-tooltip-label, .dark .recharts-tooltip-item { color: #e2e8f0 !important; }

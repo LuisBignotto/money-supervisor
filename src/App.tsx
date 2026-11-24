@@ -20,6 +20,13 @@ export default function App() {
   const [tab, setTab] = useState<(typeof TABS)[number]>('Carteira')
   const [data, setData] = useState<{ records: RawRecord[]; snapshots: Snapshot[]; quotes: Quote[] } | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'))
+
+  function toggleTheme() {
+    const on = document.documentElement.classList.toggle('dark')
+    localStorage.setItem('theme', on ? 'dark' : 'light')
+    setDark(on)
+  }
 
   const reload = useCallback(async () => {
     try {
@@ -48,17 +55,27 @@ export default function App() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <h1 className="text-lg font-semibold tracking-tight">💰 money-supervisor</h1>
-          <nav className="flex gap-1 rounded-xl bg-slate-100 p-1">
-            {TABS.map((t) => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={`rounded-lg px-4 py-1.5 text-sm font-medium transition ${tab === t ? 'bg-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
-              >
-                {t}
-              </button>
-            ))}
-          </nav>
+          <div className="flex items-center gap-3">
+            <nav className="flex gap-1 rounded-xl bg-slate-100 p-1">
+              {TABS.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTab(t)}
+                  className={`rounded-lg px-4 py-1.5 text-sm font-medium transition ${tab === t ? 'bg-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+                >
+                  {t}
+                </button>
+              ))}
+            </nav>
+            <button
+              onClick={toggleTheme}
+              aria-label={dark ? 'Ativar modo claro' : 'Ativar modo noturno'}
+              title={dark ? 'Modo claro' : 'Modo noturno'}
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-lg transition hover:bg-slate-200"
+            >
+              {dark ? '☀️' : '🌙'}
+            </button>
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-7xl p-6">
